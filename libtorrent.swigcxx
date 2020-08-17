@@ -1,0 +1,181 @@
+%module (directors="1") libtorrent
+
+#pragma SWIG nowarn=204 // CPP #warning, ""unknown OS, assuming BSD"", ""unknown platform, assuming the longest path is 255"".
+#pragma SWIG nowarn=302 // Identifier 'GetCArray' redefined (ignored) (Renamed from 'get_c_array'), previous definition of 'GetCArray' (Renamed from 'get_c_array').
+#pragma SWIG nowarn=312 // Nested union not currently supported (ignored).
+#pragma SWIG nowarn=314 // 'range' is a Go keyword, renaming to 'Xrange'
+#pragma SWIG nowarn=315 // Nothing known about 'boost::asio::ip::tcp'.
+#pragma SWIG nowarn=317 // Specialization of non-template '<name>'.
+#pragma SWIG nowarn=319 // No access specifier given for base class 'boost::noncopyable' (ignored).
+#pragma SWIG nowarn=325 // Nested struct not currently supported (const_iterator ignored)
+#pragma SWIG nowarn=341 // The 'using' keyword in type aliasing is not fully supported yet.
+#pragma SWIG nowarn=401 // Nothing known about base class '<name>'. Ignored.
+#pragma SWIG nowarn=402 // Base class '<name>' is incomplete.
+#pragma SWIG nowarn=451 // Setting a const char * variable may leak memory.
+#pragma SWIG nowarn=503 // Can't wrap 'Operator ...' unless renamed to a valid identifier.
+#pragma SWIG nowarn=516 // Overloaded method ... ignored, using ... instead.
+#pragma SWIG nowarn=890 // Ignoring '...' due to Go name ('...') conflict with '...'
+
+%{
+// #include <boost/chrono.hpp>
+// #include <libtorrent/time.hpp>
+%}
+
+%include <stl.i>
+%include <stdint.i>
+// %include <std_common.i>
+// %include <std_string.i>
+// %include <std_pair.i>
+%include <typemaps.i>
+
+%apply char *INOUT {char *read_buf};
+
+#define BOOST_POSIX_API
+#define BOOST_NO_TYPEID
+#define TORRENT_NO_DEPRECATE
+
+// #define BOOST_ASIO_DECL ""
+// #define BOOST_NO_TYPEID 1
+// #define BOOST_NO_EXCEPTIONS
+// #define BOOST_POSIX_API 1
+// #define BOOST_SYSTEM_NOEXCEPT ""
+// #define BOOST_SYSTEM_DECL ""
+// #define BOOST_SYSTEM_NO_DEPRECATED 1
+#define BOOST_SYSTEM_CONSTEXPR
+// #define BOOST_CONSTEXPR
+// #define BOOST_NO_IOSTREAM
+// #define BOOST_SYMBOL_VISIBLE
+// #define BOOST_NOEXCEPT ""
+// #define BOOST_NOEXCEPT_OR_NOTHROW ""
+// #define TORRENT_ABI_VERSION 2
+// #define TORRENT_VERSION_NAMESPACE_2 ""
+// #define TORRENT_VERSION_NAMESPACE_2_END ""
+// #define TORRENT_IPV6_NAMESPACE ""
+// #define TORRENT_IPV6_NAMESPACE_END ""
+// #define TORRENT_CFG "TORRENT_CFG"
+// #define TORRENT_NO_DEPRECATE
+// #define TORRENT_DEPRECATED_EXPORT ""
+// #define TORRENT_DEPRECATED_MEMBER ""
+// #define TORRENT_DEPRECATED_ENUM ""
+// #define TORRENT_DEPRECATED
+// #define TORRENT_EXPORT ""
+// #define TORRENT_EXTRA_EXPORT ""
+// #define TORRENT_FORMAT\(x,y\) ""
+// #define NDEBUG 1
+
+namespace std {
+    typedef int time_t;
+
+    %template(stdVectorInt) vector<int>;
+    %template(stdVectorChar) vector<char>;
+    %template(stdVectorSizeType) vector<long long>;
+    %template(stdPairIntInt) pair<int, int>;
+    %template(stdPairStringInt) pair<string, int>;
+}
+
+namespace boost {
+    typedef ::int64_t int64_t;
+}
+
+namespace libtorrent
+{
+    class time_duration;
+
+    time_duration milliseconds(int64_t n) {
+        return boost::chrono::milliseconds(n);
+    }
+    time_duration seconds(int64_t n) {
+        return boost::chrono::seconds(n);
+    }
+}
+
+%include "interfaces/renames.i"
+
+// These are problematic, ignore them for now
+%ignore libtorrent::throw_invalid_handle;
+%ignore libtorrent::web_seed_entry;
+%ignore libtorrent::boosttime_deprecated_;
+
+%ignore libtorrent::time_now_string;
+%ignore libtorrent::merkle_num_leafs;
+%ignore libtorrent::merkle_num_nodes;
+%ignore libtorrent::merkle_get_parent;
+%ignore libtorrent::trim_path_element;
+%ignore libtorrent::merkle_get_sibling;
+%ignore libtorrent::detail::get_symlink_path;
+%ignore libtorrent::detail::get_file_attributes;
+%ignore libtorrent::log_time;
+%ignore libtorrent::parse_int;
+%ignore libtorrent::blockinfo::setpeer;
+
+// Windows...
+%ignore libtorrent::file_status::block_special;
+%ignore libtorrent::file_status::link;
+%ignore libtorrent::file_status::socket;
+
+// %ignore boost::throws;
+// %ignore boost::detail::throws;
+// %ignore boost::system::generic_category;
+// %ignore boost::system::system_category;
+// %ignore boost::system::error_category;
+// %ignore boost::system::error_condition;
+// %ignore boost::system::system_error;
+// %ignore boost::system::error_code::error_code(int, const error_category&);
+// %ignore boost::system::error_code::assign;
+// %ignore boost::system::error_code::category;
+// %ignore boost::system::error_code::default_error_condition;
+// %ignore boost::system::error_code::unspecified_bool_true;
+// %ignore boost::system::error_code::operator std::error_code;
+// %ignore boost::system::error_code::message(char*, std::size_t) const;
+// %ignore boost::system::operator==(const error_code&, const error_condition&);
+// %ignore boost::system::operator==(const error_condition&, const error_code&);
+// %ignore boost::system::operator!=(const error_code&, const error_condition&);
+// %ignore boost::system::operator!=(const error_condition&, const error_code&);
+// %ignore boost::system::operator!=(const error_condition&, const error_condition&);
+// %ignore boost::system::hash_value;
+// %ignore boost::system::errc::make_error_condition;
+// %ignore boost::system::detail::failed_impl;
+// %ignore boost::system::detail::generic_error_category;
+// %ignore boost::system::detail::system_error_category;
+// %ignore boost::asio;
+
+%include <boost/preprocessor/cat.hpp>
+%include <boost/version.hpp>
+%include <boost/config/detail/suffix.hpp>
+// %include <boost/config/suffix.hpp>
+%include <boost/system/config.hpp>
+// %include <boost/system/error_code.hpp>
+%include <boost/asio/detail/config.hpp>
+%include <boost/asio/error.hpp>
+
+%include <boost/system/error_code.hpp>
+%include <boost/system/system_error.hpp>
+
+%include "interfaces/boost_array.i"
+
+%include "interfaces/exceptions.i"
+
+%include <libtorrent/config.hpp>
+%include <libtorrent/export.hpp>
+%include <libtorrent/version.hpp>
+%include <libtorrent/build_config.hpp>
+%include <libtorrent/error_code.hpp>
+%include <libtorrent/error.hpp>
+
+%include "interfaces/piece_picker.i"
+%include "interfaces/memory_storage.i"
+%include "interfaces/bitfield.i"
+%include "interfaces/socket.i"
+%include <libtorrent/address.hpp>
+
+%include "interfaces/torrent_info.i"
+%include <libtorrent/settings_pack.hpp>
+%include <libtorrent/session_settings.hpp>
+
+%include "interfaces/peer_info.i"
+%include "interfaces/torrent_handle.i"
+%include "interfaces/add_torrent_params.i"
+%include "interfaces/alert.i"
+%include "interfaces/alert_types.i"
+%include "interfaces/create_torrent.i"
+%include "interfaces/session.i"
