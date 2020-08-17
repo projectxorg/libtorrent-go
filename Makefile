@@ -1,6 +1,6 @@
-PROJECT = elementumorg
+PROJECT = projectxorg
 NAME = libtorrent-go
-GO_PACKAGE = github.com/ElementumOrg/$(NAME)
+GO_PACKAGE = github.com/projectxorg/$(NAME)
 CC = cc
 CXX = c++
 PKG_CONFIG = pkg-config

@@ -1,3 +1,3 @@
-module github.com/ElementumOrg/libtorrent-go
+module github.com/projectxorg/libtorrent-go
 
 go 1.14

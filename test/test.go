@@ -8,7 +8,7 @@ import (
 
 	"github.com/op/go-logging"
 
-	lt "github.com/ElementumOrg/libtorrent-go"
+	lt "github.com/projectxorg/libtorrent-go"
 )
 
 var log = logging.MustGetLogger("test")
